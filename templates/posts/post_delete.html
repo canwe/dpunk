@@ -1,0 +1,28 @@
+{% extends 'home.html' %}
+
+{% block title  %}{{ object.title }}{% endblock %}
+{% block h1 %}<h1>{{ object.title }}</h1>{% endblock %}
+
+{% block content %}
+    <form method="POST" action="{% url object.object_name|add:'_delete' object.id %}">
+
+        <div class="message warning">
+            Вы действительно хотите удалить {{ object.verbose_name_rod }} "{{ object.title }}"{% if object.get_related %} и все связанные объекты{% endif %}?
+            <div class="tip">Это действие нельзя отменить.</div>
+        </div>
+
+        <ul>
+            {% for related in object.get_related %}
+                <li>{{ related.meta.verbose_name.capitalize }}: {{ related }}</li>
+            {% endfor %}
+        </ul>
+
+        {% csrf_token %}
+
+        <button type="submit">Да, действительно</button>
+
+        <a href="{% url object.object_name|add:'_detail' object.id %}" class="button button-light">Нет, не хочу</a>
+
+    </form>
+
+{% endblock %}

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{{ settings.SITE_NAME }}{% endblock %}</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/media/css/style.css">
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+</head>
+
+<body>
+
+{% if settings.DEBUG and test_form and test_formset %}{% include 'tests/table.html' %}{% endif %}
+
+{# MVP #}
+
+{# TODO: Зарелизиться #}
+{# TODO: установить аналитику #}
+
+{# TOOD: Попробовать зайти на сервак edumate #}
+
+{#[20.07.15, 13:23:12] Александр Бочаров: Пароли#}
+{#[20.07.15, 13:23:13] Александр Бочаров: Подключаемся по ssh#}
+{#ssh root@185.30.96.71 KJsdiqw82 #}
+{#[20.07.15, 13:23:24] Александр Бочаров: Админка#}
+{#Адрес:    http://edumate.ru/admin/#}
+{#Логин:    alexander@rackstore.ru#}
+{#Пароль: EwfBpQ6WCdvP6ueK#}
+{#[20.07.15, 13:23:33] Александр Бочаров: остальное прежнее осталось#}
+
+{# TODO: Копка публикации #}
+{# TODO: Нельзя -> нельзя будет #}
+
+{# После релиза #}
+
+{# TODO: Все, мать их, пароли #}
+{# TODO: Проверить timezone #}
+{# TODO: сайтмап #}
+
+{# NEXT #}
+
+{# TODO: Проверить, чтобы небыло такого же активного кода при активации и смене пароля #}
+
+{# TODO: Переделать публикацию на глазик, удаление на корзинку, написать на корондашик, логин на замочек #}
+
+{# TODO: Запилить поделяжки #}
+{# TODO: Разобраться с цветами - чтобы они все были производными от одного #}
+{# TODO: WYSIWYG со вставкой картинок, видосов и т.д. #}
+{# TODO: Избранное, комментарии, о себе + аватарка, стена с отзывами #}
+{# TODO: Статусы пользователей, типа новичок, супермен и т.д. #}
+{# TODO: Страница с пользователями #}
+{# TODO: Рейтинги постов, людей, комментариев #}
+{# TODO: Рубрики, теги статей #}
+
+{# FUTURE #}
+{# TODO: Удаление - на самом деле не удаляет #}
+{# TODO: E-mail об успешном изменении пароля #}
+
+{# TODO: Запилить крутые всплывающие подсказки #}
+{# TODO: Личные сообщения #}
+{# TODO: Формы авторизации в попапе #}
+{# TODO: Формы смены пароля и емейла на одной странице #}
+{# TODO: Поиск #}
+{# TODO: Авторизации через соц. сети #}
+{# TODO: Адаптивная вёрстка для широких экранов и мобил #}
+
+{# TODO: Отмена сброса пароля #}
+{# TODO: Согласиться с правилами поведения на сайте #}
+{# TODO: Пользовательское соглашение и Политика конфиденциальности #}
+{# TODO: Пожаловаться? #}
+{# TODO: Люди / Компании и т.д. #}
+
+<div class="all">
+    <div class="header">
+        <div class="wrapper">
+            {% spaceless %}
+            <div class="menu">
+                <a href="{% url 'post_add' %}" class="button menu-button {% active 'post_add' %}">Написать статью</a>
+                {% if not user.is_authenticated %}
+                    <a href="{% url 'user_login' %}" class="menu-item {% active 'user_login' %}">Вход</a>
+                    <a href="{% url 'user_signup' %}" class="menu-item {% active 'user_signup' %}">Регистрация</a>
+                {% else %}
+                    <a href="{% url 'user_detail' user.id %}" class="menu-item {% active 'user_detail' user.id %} menu-item-icon" title="{{ user.get_full_name }}"><i class="fa fa-user"></i></a>
+                    <a href="{% url 'user_edit' %}" class="menu-item {% active 'user_edit' %} menu-item-icon"><i class="fa fa-cog"></i></a>
+                {% endif %}
+            </div>
+            <a href="{% url 'home' %}" class="logo"><span>{{ settings.SITE_NAME }}</span></a>
+            {% endspaceless %}
+        </div>
+    </div>
+
+    <div class="container">
+
+        {% block headline %}
+            {# <div class="headline h1"> #}
+                {# <div class="wrapper wrapper-padding"> #}
+                    {# placeholder #}
+                {# </div> #}
+            {# </div> #}
+        {% endblock %}
+
+        <div class="messages">
+            {% for message in messages %}
+                <div{% if message.tags %} class="message {{ message.tags }}"{% endif %}>
+                    <div class="wrapper wrapper-padding">
+                        <i class="message-close fa fa-times"></i>
+                        {{ message|safe }}
+                    </div>
+                </div>
+            {% endfor %}
+            {% if user.is_authenticated and not user.is_activated %}
+                <div class="message warning warning">
+                    <div class="wrapper wrapper-padding">
+                        <div>Пожалуйста, подтвердите Ваш e-mail {{ user.email }}, чтобы получить доступ ко всем функциям.</div>
+                        <div class="tip">
+                            <a href="{% url 'user_send_activation' %}">Выслать повторное письмо активации</a>,
+                            <a href="{% url 'user_change_email' %}">Указать другой e-mail</a>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="column-table wrapper">
+            <div class="tr">
+                {% block left %}{# <div class="column-left"></div> #}{% endblock %}
+                <div class="column-center">
+
+                    {% block tabs %}{% include 'abs/blocks/actions.html' %}{% endblock %}
+
+                    <div class="content {% if 'home' in url_name or 'list' in url_name or 'user_detail' in url_name %}content-list{% endif %}">
+                        {% block h1 %}{% endblock %}
+                        {% block content %}
+                            {% include 'posts/blocks/post_list.html' with posts=posts %}
+                        {% endblock %}
+                    </div>
+                    {% block comments %}{% endblock %}
+                </div>
+                {% block right %}{# <div class="column-кшпре"></div> #}{% endblock %}
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+
+        {# {% if settings.DEBUG %}{% include 'tests/menu.html' %}{% endif %} #}
+
+        <div class="wrapper">
+            <a class="social vk" href="https://vk.com/dpunkru"><i class="fa fa-vk"></i></a>
+            <!--span style="float:right;">{{ settings.SITE_EMAIL }}</span-->
+            <span style="padding-left:20px;">© {% now "Y" %} {{ settings.SITE_NAME }} <!--| Powered by <a href="https://www.digitalocean.com">DigitalOcean</a>--></span>
+        </div>
+    </div>
+</div>
+
+<script src="/media/libs/jquery.django.formset.js"></script>
+<script src="/media/js/csrf.js"></script>
+
+<script>
+    // Закрываем сообщения по крестику
+    $('.message-close').click(function(){$(this).closest('.message').hide()});
+</script>
+
+
+</body>
+</html>

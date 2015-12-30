@@ -1,0 +1,18 @@
+{% spaceless %}
+    <div class="wrapper">
+        <div class="tabs">
+            {% if not user.is_authenticated %}
+                <a class="tabs-tab {% active 'user_login' %}" href="{% url 'user_login' %}">Войти</a>
+                <a class="tabs-tab {% active 'user_signup' %}" href="{% url 'user_signup' %}">Регистрация</a>
+                <a class="tabs-tab {% active 'user_forgot_password' %}" href="{% url 'user_forgot_password' %}">Забыли пароль?</a>
+            {% else %}
+                {% if user.is_authenticated and user.is_active %}
+                    <a class="tabs-tab {% active 'user_edit' %}" href="{% url 'user_edit' %}">Пользователь</a>
+                    <a class="tabs-tab {% active 'user_change_email' %}" href="{% url 'user_change_email' %}">Сменить e-mail</a>
+                    <a class="tabs-tab {% active 'user_change_password' %}" href="{% url 'user_change_password' %}">Сменить пароль</a>
+                {% endif %}
+                <a class="tabs-tab fa fa-sign-out" style="float:right;" href="{% url 'user_logout' %}" title="Выйти"></a>
+            {% endif %}
+        </div>
+    </div>
+{% endspaceless %}

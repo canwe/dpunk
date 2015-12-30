@@ -1,0 +1,48 @@
+<style>
+    .form-test {width:99%;margin:10px auto;}
+    .form-test table    {width:100%;table-layout:fixed;}
+    .form-test textarea {width:100%;height:30px;line-height:15px;font-size:12px;background-color: #ffee99}
+    .form-test .good textarea    {background-color: darkseagreen}
+    .form-test .case textarea    {background-color: white}
+</style>
+
+<form enctype="multipart/form-data" action="{% url 'test' %}" method="post" class="form-test">
+
+    {% csrf_token %}
+
+    {{ test_formset.management_form }}
+
+
+    {{ test_form.title }}
+
+    <table>
+            <tr>
+                <th>Ссылка</th>
+                <th>Случай</th>
+                <th>Аноним</th>
+                <th>Не активированный</th>
+                <th>Активированный</th>
+                <th>Удалённый</th>
+                <th>Заблокированный</th>
+                <th>Админ</th>
+            </tr>
+        {% for formset_item in test_formset %}
+            <tr>
+                <td class="{% if formset_item.url.value and formset_item.url.value|slice:"-1:" != '!'  %}good{% endif %}"         ><a href="{{ formset_item.url.value }}">{{ formset_item.url.value }}</a></td>
+                <td class="case {% if formset_item.case.value and formset_item.case.value|slice:"-1:" != '!' %}good{% endif %}"         >{{ formset_item.case }}</td>
+                <td class="{% if formset_item.anonymous.value and formset_item.anonymous.value|slice:"-1:" != '!' %}good{% endif %}"    >{{ formset_item.anonymous }}</td>
+                <td class="{% if formset_item.not_activated.value and formset_item.not_activated.value|slice:"-1:" != '!' %}good{% endif %}">{{ formset_item.not_activated }}</td>
+                <td class="{% if formset_item.activated.value and formset_item.activated.value|slice:"-1:" != '!' %}good{% endif %}"    >{{ formset_item.activated }}</td>
+                <td class="{% if formset_item.not_active.value and formset_item.not_active.value|slice:"-1:" != '!' %}good{% endif %}"   >{{ formset_item.not_active }}</td>
+                <td class="{% if formset_item.not_moderated.value and formset_item.not_moderated.value|slice:"-1:" != '!' %}good{% endif %}">{{ formset_item.not_moderated }}</td>
+                <td class="{% if formset_item.staff.value and formset_item.staff.value|slice:"-1:" != '!' %}good{% endif %}"        >{{ formset_item.staff }}</td>
+            </tr>
+            <tr style="display:none;"><td colspan="8">{{ formset_item.id }} {{ formset_item.url }}</td></tr>
+        {% endfor %}
+    </table>
+
+    <input type="hidden" name="next" value="{{ request.build_absolute_uri }}" />
+
+    <button type="submit">Сохранить</button>
+
+</form>

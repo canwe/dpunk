@@ -1,0 +1,19 @@
+{% extends 'home.html' %}
+
+{% block title %}500{% endblock %}
+
+{% block headline %}
+    <div class="headline h1">
+        <div class="wrapper wrapper-padding">
+            500
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+
+    <h2>Упс, что-то пошло не так :(</h2>
+    <br>
+    <h4><a href="{% url 'home' %}">Перейти на главную страницу</a></h4>
+
+{% endblock %}

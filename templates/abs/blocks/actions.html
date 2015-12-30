@@ -1,0 +1,45 @@
+{% if object %}
+    {% if object.user == user or user.is_staff %}
+        {% spaceless %}
+            <div class="tabs{% if inline %} tabs-inline{% endif %}">
+
+                <a title="Открыть {{ object.meta.verbose_name_rod }}" class="tabs-tab fa fa-file-text-o {% active 'post_detail' object.id %}" href="{% url 'post_detail' object.id %}"></a>
+
+                {% if user.is_staff %}
+                    <a title="Редактировать {{ object.meta.verbose_name_rod }} в панели администратора" class="tabs-tab fa fa-black-tie" href="{% url 'admin:'|add:object.app_object_name|add:'_change' object.id %}"></a>
+                {% endif %}
+
+                <div style="float:right;">
+
+                    {% if not object.moderated %}
+                        <span class="tabs-message error">Заблокировано</span>
+                    {% endif %}
+                    {% if not object.user.moderated %}
+                        <span class="tabs-message error">Пользователь забанен</span>
+                    {% endif %}
+                    {% if not object.user.is_active %}
+                        <span class="tabs-message error">Пользователь удалён</span>
+                    {% endif %}
+
+                    {# Активирован ли пользователь? инфа для админа #}
+
+                    <form class="tabs-form" method="post" action="{% url 'post_publish' object.id %}">
+                        {% csrf_token %}
+                        <button type="submit">
+                            {% if object.published %}
+                                Снять с публикации
+                                <i class="fa fa-toggle-on"></i>
+                            {% else %}
+                                Опубликовать
+                                <i class="fa fa-toggle-off"></i>
+                            {% endif %}
+                        </button>
+                    </form>
+
+                    <a title="Редактировать {{ object.meta.verbose_name_rod }}" class="tabs-tab fa fa-pencil {% active 'post_edit'   object.id %}" href="{% url 'post_edit'   object.id %}"></a>
+                    <a title="Удалить {{ object.meta.verbose_name_rod }}" class="tabs-tab fa fa-times  {% active 'post_delete' object.id %}" href="{% url 'post_delete' object.id %}" style="border-radius:0 2px 0 0;"></a>
+                </div>
+            </div>
+        {% endspaceless %}
+    {% endif %}
+{% endif %}

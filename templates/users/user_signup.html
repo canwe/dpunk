@@ -1,0 +1,15 @@
+{% extends 'home.html' %}
+
+{% block title  %}Регистрация{% endblock %}
+{% block h1 %}<h1>Регистрация</h1>{% endblock %}
+
+{% block tabs %}{% include 'users/blocks/user_menu.html' %}{% endblock %}
+
+{% block content %}
+    <form method="POST" action="{% url 'user_signup' %}">
+        {% csrf_token %}
+        {{ form|form|safe }}
+         <p class="tip" style="margin-top:20px;">Регистрируясь, Вы принимаете условия <a href="#">Пользовательского соглашения</a> и <a href="#">Политики конфиденциальности</a></p>
+        <button type="submit">Зарегистрироваться</button>
+    </form>
+{% endblock %}

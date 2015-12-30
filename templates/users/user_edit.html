@@ -1,0 +1,18 @@
+{% extends 'home.html' %}
+
+{% block title  %}Пользователь{% endblock %}
+{% block h1 %}<h1>Пользователь</h1>{% endblock %}
+
+{% block tabs %}{% include 'users/blocks/user_menu.html' %}{% endblock %}
+
+{% block content %}
+    <form method="POST" action="{% url 'user_edit' %}">
+        {% csrf_token %}
+        {{ form|form|safe }}
+
+        <input type="hidden" name="next" value="{{ next|escape }}" />
+
+        <button type="submit">Сохранить</button>
+        <a href="{% url 'user_delete' %}" class="button button-light" style="float:right;">{% if user.is_active %}Удалить{% else %}Восстановить{% endif %} аккаунт</a>
+    </form>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'home.html' %}
+
+{% block title  %}{% if object %}{{ object.title }}{% else %}Добавить статью{% endif %}{% endblock %}
+{% block h1 %}<h1>{% if object %}{{ object.title }}{% else %}Добавить статью{% endif %}</h1>{% endblock %}
+
+{% block content %}
+    <form method="POST" action="{% if object %}{% url 'post_edit' object.id %}{% else %}{% url 'post_add' %}{% endif %}">
+
+        {% csrf_token %}
+
+        {{ form|form|safe }}
+
+        <button type="submit">Сохранить</button>
+        {% if object %}<a href="{% url 'post_detail' object.id %}" class="button button-light">Отмена</a>{% endif %}
+{#        {% if object %}<a href="{% url 'post_delete' object.id %}" class="button button-light" style="float:right;">Удалить</a>{% endif %}#}
+    </form>
+{% endblock %}

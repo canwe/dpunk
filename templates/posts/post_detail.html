@@ -1,0 +1,40 @@
+{% extends 'home.html' %}
+
+{% load tz %}
+
+{% block title  %}{{ object.title }}{% endblock %}
+
+{% block h1 %}<h1>{{ object.title }}</h1>{% endblock %}
+
+{% block content %}
+
+    {% if object.published_moderated or user == object.user or user.is_staff %}
+
+        <div class="post-datetime">{{ object.date_created }}</div>
+        <div class="post-anons">{{ object.anons|linebreaksbr }}</div>
+        <div class="post-text">{{ object.text|linebreaksbr }}</div>
+
+        <div class="post-footer">
+            {% spaceless %}
+                <a href="{% url 'user_detail' object.user.id %}"><i class="fa fa-user"></i>{{ object.user.get_full_name }}</a>
+            {% endspaceless %}
+        </div>
+
+    {% elif not object.user.is_active %}
+        <p style="margin:20px 0 0">Автор материала удалён</p>
+    {% elif not object.user.moderated %}
+        <p style="margin:20px 0 0">Автор материала заблокирован</p>
+    {% elif not object.moderated %}
+        <p style="margin:20px 0 0">Материал заблокирован</p>
+    {% elif not object.published %}
+        <p style="margin:20px 0 0">Материал снят с публикации</p>
+    {% endif %}
+
+{% endblock %}
+
+{% block comments %}
+    {% if object.bublished_moderated %}
+        <div id="disqus_thread">Комментарии в разработке</div>
+    {% endif %}
+    {% include 'abs/blocks/disqus.html' %}
+{% endblock %}

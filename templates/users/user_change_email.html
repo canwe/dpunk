@@ -1,0 +1,14 @@
+{% extends 'home.html' %}
+
+{% block title  %}Сменить E-mail{% endblock %}
+{% block h1 %}<h1>Сменить E-mail</h1>{% endblock %}
+
+{% block tabs %}{% include 'users/blocks/user_menu.html' %}{% endblock %}
+
+{% block content %}
+    <form method="POST" action="{% url 'user_change_email' %}">
+        {% csrf_token %}
+        {{ form|form|safe }}
+        <button type="submit">Сменить E-mail</button>
+    </form>
+{% endblock %}

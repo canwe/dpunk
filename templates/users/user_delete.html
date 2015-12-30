@@ -1,0 +1,28 @@
+{% extends 'home.html' %}
+
+{% block title  %}{% if user.is_active %}Удалить{% else %}Восстановить{% endif %} аккаунт{% endblock %}
+{% block h1 %}<h1>{% if user.is_active %}Удалить{% else %}Восстановить{% endif %} аккаунт</h1>{% endblock %}
+
+{% block tabs %}{% include 'users/blocks/user_menu.html' %}{% endblock %}
+
+{% block content %}
+    <form method="POST" action="{% url 'user_delete' %}">
+        {% csrf_token %}
+
+        {{ form|form|safe }}
+
+        {% if request.user.is_active %}
+            <div class="message warning">
+                <div>Вы действительно хотите удалить свой аккаунт?</div>
+                <div class="tip">Аккаунт можно будет восстановить в любой момент. Для полного удаления аккаунта, напишите нам на {{ settings.SITE_EMAIL }}</div>
+            </div>
+        {% endif %}
+
+        {% if user.is_active %}
+            <button type="submit">Да, действительно</button>
+            <a href="{% url 'user_edit' %}" class="button button-light">Нет, не хочу</a>
+        {% else %}
+            <button type="submit">Восстановить</button>
+        {% endif %}
+    </form>
+{% endblock %}
