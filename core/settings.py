@@ -59,7 +59,7 @@ MIDDLEWARE_CLASSES = [
     'apps.users.middleware.UserMiddleware',
 
     'pagination.middleware.PaginationMiddleware',
-    'easy_timezones.middleware.EasyTimezoneMiddleware',
+    # 'easy_timezones.middleware.EasyTimezoneMiddleware',
 ]
 
 ROOT_URLCONF = 'core.urls'
