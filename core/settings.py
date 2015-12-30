@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'pagination',
-    'easy_timezones',
+    # 'easy_timezones',
 
     'apps.users',
     'apps.posts',
