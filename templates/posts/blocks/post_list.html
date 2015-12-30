@@ -7,7 +7,7 @@
             <div class="post">
                 <a class="post-title h2" href="{% url 'post_detail' object.id %}">{{ object.title }}</a>
                 <div class="post-datetime">{{ object.date_created }}</div>
-                <div class="post-anons">{{ object.anons|linebreaksbr }}</div>
+                <div class="post-anons">{{ object.anons|linebreaksbr|safe }}</div>
                 <div class="post-footer">
                     {% spaceless %}
                         <a href="{% url 'post_detail' object.id %}">Читать полностью</a>
