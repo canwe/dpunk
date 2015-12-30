@@ -133,7 +133,7 @@ SITE_EMAIL  = u'dpunkru@mail.ru'
 from django.core.urlresolvers import reverse_lazy
 LOGIN_URL = reverse_lazy('user_login')
 
-GEOIP_DATABASE = 'GeoLiteCity.dat'
+# GEOIP_DATABASE = 'GeoLiteCity.dat'
 
 import django.db.models.options as options
 options.DEFAULT_NAMES = options.DEFAULT_NAMES + ('verbose_name_rod',)
