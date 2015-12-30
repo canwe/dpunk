@@ -11,8 +11,8 @@
     {% if object.published_moderated or user == object.user or user.is_staff %}
 
         <div class="post-datetime">{{ object.date_created }}</div>
-        <div class="post-anons">{{ object.anons|linebreaksbr }}</div>
-        <div class="post-text">{{ object.text|linebreaksbr }}</div>
+        <div class="post-anons">{{ object.anons|safe|linebreaksbr }}</div>
+        <div class="post-text">{{ object.text|safe|linebreaksbr }}</div>
 
         <div class="post-footer">
             {% spaceless %}
